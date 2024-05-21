@@ -1,0 +1,97 @@
+html
+
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Калькулятор Объема Жесткого Диска</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Калькулятор Объема Жесткого Диска для Видеонаблюдения</h1>
+
+<div class="form-group">
+    <label for="cameras">Количество Камер:</label>
+    <input type="number" id="cameras" min="1" value="1">
+</div>
+
+<div class="form-group">
+    <label for="days">Количество Дней:</label>
+    <input type="number" id="days" min="1" value="1">
+</div>
+
+<div class="form-group">
+    <label for="type">Тип Видеонаблюдения:</label>
+    <select id="type">
+        <option value="2">AHD 2MP</option>
+        <option value="4">AHD 4MP</option>
+        <option value="5">AHD 5MP</option>
+    </select>
+</div>
+
+<button onclick="calculateDiskSpace()">Рассчитать</button>
+
+<div class="result" id="result"></div>
+
+<script>
+    function calculateDiskSpace() {
+        const cameras = document.getElementById('cameras').value;
+        const days = document.getElementById('days').value;
+        const type = document.getElementById('type').value;
+
+        const bitrates = {
+            '2': 3000,  // kbps for AHD 2MP
+            '4': 5000,  // kbps for AHD 4MP
+            '5': 8000   // kbps for AHD 5MP
+        };
+
+        // Calculate total bitrate in kbps
+        const totalBitrate = cameras * bitrates[type];
+
+        // Convert bitrate to GB (bytes to kilobytes to megabytes to gigabytes)
+        // Formula: (bitrate_kbps * 24 * 60 * 60 * days) / (8 * 1024 * 1024)
+        const totalGB = (totalBitrate * 24 * 60 * 60 * days) / (8 * 1024 * 1024);
+
+        // Display the result
+        const resultDiv = document.getElementById('result');
+        resultDiv.innerHTML = &lt;p&gt;Необходимый объём жесткого диска: ${totalGB.toFixed(2)} ГБ&lt;/p&gt;;
+    }
+</script>
+
+</body>
+</html>
